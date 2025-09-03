@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+  <h1>Welcome to Leave Management System</h1>
+  {% if user.is_authenticated %}
+    <p><a href="{% url 'leave-list' %}" class="btn btn-primary">View My Leaves</a></p>
+  {% else %}
+    <p><a href="{% url 'login' %}" class="btn btn-success">Login</a></p>
+  {% endif %}
+</div>
+{% endblock %}

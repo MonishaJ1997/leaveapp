@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-header bg-info text-white">
+    Leave Request by {{ leave.employee.username }}
+  </div>
+  <div class="card-body">
+    <p><strong>Reason:</strong> {{ leave.reason }}</p>
+    <p><strong>Status:</strong> 
+      <span class="badge bg-secondary">{{ leave.status }}</span>
+    </p>
+    <p><strong>Created:</strong> {{ leave.created_at|date:"d M Y H:i" }}</p>
+    <p><strong>Updated:</strong> {{ leave.updated_at|date:"d M Y H:i" }}</p>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'leave-list' %}" class="btn btn-secondary">Back</a>
+    {% if user == leave.employee or user.is_superuser %}
+      <a href="{% url 'leave-update' leave.pk %}" class="btn btn-warning">Edit</a>
+      <a href="{% url 'leave-delete' leave.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+  </div>
+</div>
+
+
+
+
+
+<div class="card">
+  <div class="card-body">
+    <h3>{{ leave.reason }}</h3>
+    <p><strong>Status:</strong> {{ leave.status }}</p>
+    <p><strong>Employee:</strong> {{ leave.user.username }}</p>
+
+    {% if user.is_superuser %}
+      <a href="{% url 'leave-approve' leave.id %}" class="btn btn-success">Approve</a>
+      <a href="{% url 'leave-reject' leave.id %}" class="btn btn-danger">Reject</a>
+    {% endif %}
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
+  <div class="card-body">
+    <h3>{{ leave.reason }}</h3>
+    <p><strong>Status:</strong> {{ leave.status }}</p>
+    <p><strong>Employee:</strong> {{ leave.user.username }}</p>
+
+    {% if user.is_staff %}
+      <a href="{% url 'leave-approve' leave.id %}" class="btn btn-success">Approve</a>
+      <a href="{% url 'leave-reject' leave.id %}" class="btn btn-danger">Reject</a>
+    {% endif %}
+  </div>
+</div>
+
+{% if user.is_staff and leave.employee != user %}
+  <a href="{% url 'leave-approve' leave.id %}" class="btn btn-success">Approve</a>
+  <a href="{% url 'leave-reject' leave.id %}" class="btn btn-danger">Reject</a>
+{% endif %}
+
+
+
+{% endblock %}
